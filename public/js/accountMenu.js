@@ -435,7 +435,6 @@ function signatureCheck(id){
 	Rho.Log.info("Start: signatureCheck(" + id + ")", "inMotion");
 	hideMenu();
 	var jsonObj = getValidateJsonObject("captureSignature");
-	Rho.Log.info("Running: signatureCheck(" + JSON.stringify(jsonObj) + ")", "inMotion");
 	if (jsonObj.trip.tripCheckoutDateDevice == "0001-01-01 00:00:00.0"){
 		alert("You must checkout your trip before capturing a signature");
 	}
@@ -449,6 +448,7 @@ function signatureCheck(id){
 function signatureCheckWithNetwork(){
 	Rho.Log.info("Start: signatureCheckWithNetwork()", "inMotion");
 	var jsonObj = getValidateJsonObject("captureSignature");
+	Rho.Log.info("Running: signatureCheckWithNetwork(" + JSON.stringify(jsonObj) + ")", "inMotion");
 	if (parseInt(jsonObj.trip.unsyncedRecordCount) > 0 || jsonObj.syncErrors.errorList.length > 0){
 		progressBar.currentStep = 0;
 		progressBar.loadingSteps = 2;
