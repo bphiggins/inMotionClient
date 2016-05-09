@@ -431,8 +431,6 @@ function removeAccount(id){
 	}
 }
 
-
-
 function signatureCheck(id){
 	Rho.Log.info("Start: signatureCheck(" + id + ")", "inMotion");
 	hideMenu();
@@ -441,26 +439,38 @@ function signatureCheck(id){
 		alert("You must checkout your trip before capturing a signature");
 	}
 	else {
-		progressBar.signatureId = id;
-		detectUHSRhoServer(signatureCheckWithNetwork, signatureCheckNoNetworkWarning);
+		try {
+			var sql = "SELECT prefix, unit from transferDetail d ";
+			sql += "left outer join transferHeader h on  d.localTransferNumber = h.localTransferNumber ";
+			sql += "where h.accountId = ? and h.transferType = ? and h.status <> ?";
+			var sqlExpression = [progressBar.signatureId, 'P', 'C'];
+			var sqlArray = userDatabase.executeSql(sql, sqlExpression);
+			if (sqlArray.length == 0) {
+				Rho.Log.info("Running: signatureCheck (no pickups)", "inMotion");
+				showSignature(id);
+			}
+			else {
+				progressBar.signatureId = id;
+				detectUHSRhoServer(signatureCheckWithNetwork, signatureCheckNoNetworkWarning);
+			}
+		}
+		catch (e) {
+			Rho.Log.info("Error: signatureCheck(" + e.message + ")", "inMotion");
+			progressBar.signatureId = id;
+			detectUHSRhoServer(signatureCheckWithNetwork, signatureCheckNoNetworkWarning);
+		}
 	}
 	Rho.Log.info("End: signatureCheck", "inMotion");
 }
 
 function signatureCheckWithNetwork(){
 	Rho.Log.info("Start: signatureCheckWithNetwork()", "inMotion");
-	var jsonObj = getValidateJsonObject("captureSignature");
-	if (parseInt(jsonObj.trip.unsyncedRecordCount) > 0 || jsonObj.syncErrors.errorList.length > 0){
-		progressBar.currentStep = 0;
-		progressBar.loadingSteps = 2;
-		progressBar.loadingModel = "";
-		$.get("/public/templates/loading.html", signatureProgress);
-	}
-	else {
-		var id = progressBar.signatureId;
-		delete progressBar.signatureId;
-		showSignature(id);
-	}
+
+	progressBar.currentStep = 0;
+	progressBar.loadingSteps = 2;
+	progressBar.loadingModel = "";
+	$.get("/public/templates/loading.html", signatureProgress);
+	
 	Rho.Log.info("End: signatureCheckWithNetwork", "inMotion");
 }
 
@@ -485,6 +495,15 @@ function signatureCheckNoNetwork(){
 	Rho.Log.info("End: signatureCheckNoNetwork", "inMotion");
 }
 
+function signatureCheckServerErrors(errorCode){
+	Rho.Log.info("Start: signatureCheckServerErrors(" + errorCode + ")", "inMotion");
+	alert("An error occurred while verifying the data.  You may continue the signature capture process at your own risk.  Any issues with the equipment included on the affected transfers will be listed on the 'Trip Completion' report and will need to be resolved on inCommand.");
+	var id = progressBar.signatureId;
+	delete progressBar.signatureId;
+	showSignature(id);
+	Rho.Log.info("End: signatureCheckServerErrors", "inMotion");
+}
+
 function signatureProgress(loadingData) {
 	Rho.Log.info("Start: signatureProgress()", "inMotion");
 	modal.open({
@@ -507,8 +526,8 @@ function signatureCheckUnits() {
 	
 		var sql = "SELECT prefix, unit from transferDetail d ";
 		sql += "left outer join transferHeader h on  d.localTransferNumber = h.localTransferNumber ";
-		sql += "where h.accountId = ? and h.transferType = ?";
-		var sqlExpression = [progressBar.signatureId, 'P'];
+		sql += "where h.accountId = ? and h.transferType = ? and h.status <> ?";
+		var sqlExpression = [progressBar.signatureId, 'P', 'C'];
 		var sqlArray = userDatabase.executeSql(sql, sqlExpression);
 		if (sqlArray.length == 0) {
 			Rho.Log.info("Running: signatureCheckUnits (no pickups)", "inMotion");
@@ -658,15 +677,6 @@ function onSignatureCheckUnits(params) {
 	Rho.Log.info("End: onSignatureCheckUnits", "inMotion");
 }
 
-function signatureCheckServerErrors(errorCode){
-	Rho.Log.info("Start: signatureCheckServerErrors(" + errorCode + ")", "inMotion");
-	alert("An error occurred while verifying the data.  You may continue the signature capture process at your own risk.  Any issues with the equipment included on the affected transfers will be listed on the 'Trip Completion' report and will need to be resolved on inCommand.");
-	var id = progressBar.signatureId;
-	delete progressBar.signatureId;
-	showSignature(id);
-	Rho.Log.info("End: signatureCheckServerErrors", "inMotion");
-}
-
 function onSignatureSyncComplete() {
 	Rho.Log.info("Start: onSignatureSyncComplete()", "inMotion");
 	var id = progressBar.signatureId;
@@ -725,7 +735,6 @@ function showSignature(id){
 	if (allowContinue) {
 		showSignatureContinue(id);
 	}
-	hideMenu();
 }
 
 function showSignatureContinue(id) {
