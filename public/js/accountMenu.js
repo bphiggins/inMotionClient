@@ -431,12 +431,11 @@ function removeAccount(id){
 	}
 }
 
-
-
 function signatureCheck(id){
 	Rho.Log.info("Start: signatureCheck(" + id + ")", "inMotion");
 	hideMenu();
 	var jsonObj = getValidateJsonObject("captureSignature");
+	Rho.Log.info("Running: signatureCheck(" + JSON.stringify(jsonObj) + ")", "inMotion");
 	if (jsonObj.trip.tripCheckoutDateDevice == "0001-01-01 00:00:00.0"){
 		alert("You must checkout your trip before capturing a signature");
 	}
