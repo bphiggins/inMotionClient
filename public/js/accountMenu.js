@@ -443,7 +443,7 @@ function signatureCheck(id){
 			var sql = "SELECT prefix, unit from transferDetail d ";
 			sql += "left outer join transferHeader h on  d.localTransferNumber = h.localTransferNumber ";
 			sql += "where h.accountId = ? and h.transferType = ? and h.status <> ?";
-			var sqlExpression = [progressBar.signatureId, 'P', 'C'];
+			var sqlExpression = [id, 'P', 'C'];
 			var sqlArray = userDatabase.executeSql(sql, sqlExpression);
 			if (sqlArray.length == 0) {
 				Rho.Log.info("Running: signatureCheck (no pickups)", "inMotion");
