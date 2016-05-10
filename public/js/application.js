@@ -26,40 +26,7 @@ function compareString(a, b) {
 	}
 }
 
-function getImageDataURL(url, success) {
-	Rho.Log.info("Start: getImageDataURL()", "inMotion");
-    var data, canvas, ctx;
-    var img = new Image();
-
-    img.addEventListener('load', function(){
-        // Create the canvas element.
-        canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        // Get '2d' context and draw the image.
-        ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        // Get canvas data URL
-        try{
-            data = canvas.toDataURL("image/jpeg", 1.0);
-            success({image:img, data:data});
-        }
-        catch(e){
-            Rho.Log.info("Error 2 capturing picture (" + e.message + ")", "inMotion");
-        }
-    });
-    // Load image URL.
-    try{
-        img.src = url;
-    }
-    catch(e){
-        Rho.Log.info("Error 1 capturing picture (" + e.message + ")", "inMotion");
-    }
-	Rho.Log.info("End: getImageDataURL", "inMotion");
-}
-
 function enableScanner(){
-	Rho.Log.info("Start: enableScanner()", "inMotion");
 	var scanner = returnImagerScanner();
 	if (scanner !== undefined) {
 		scanner.disable();
@@ -83,7 +50,6 @@ function enableScanner(){
 			}
 		}
 		if (mode > -1) {
-			Rho.Log.info("Run: enableScanner(" + mode + ")", "inMotion");
 			try {
 				scanner.decodeVolume = 2;
 				//TODO enable callback based on mode passed in ie: enableScanner(mode)
@@ -115,42 +81,36 @@ function enableScanner(){
 						$("#cameraFab").on("click", function(){
 							scanner.take({}, scannerCallbackMode1);
 						});
-//						scanner.take({}, scannerCallbackMode1);
 					}
 					else if (mode == 2){
 						$("#cameraFab").on("click", function(){
 							scanner.take({}, scannerCallbackMode2);
 						});
-//						scanner.take({}, scannerCallbackMode2);
 					}
 					else if (mode == 3){
 						$("#cameraFab").on("click", function(){
 							scanner.take({}, scannerCallbackMode3);
 						});
-//						scanner.take({}, scannerCallbackMode3);
 					}
 					else if (mode == 4){
 						$("#cameraFab").on("click", function(){
 							scanner.take({}, scannerCallbackMode4);
 						});
-//						scanner.take({}, scannerCallbackMode4);
 					}
 				}
 			}
 			catch (e) {
 				Rho.Log.info("Error: enableScanner(" + e.message + ")", "inMotion");
 			}
+			Rho.Log.info("Run: enableScanner(" + mode + ")", "inMotion");
 		}
 	}
 	else {
 		Rho.Log.info("Run: enableScanner(simulator)", "inMotion");
 	}
-	Rho.Log.info("End: enableScanner", "inMotion");
 }
 
 function disableScanner() {
-	Rho.Log.info("Start: disableScanner()", "inMotion");
-	
 	var scanner = returnImagerScanner();
 	if (scanner !== undefined) {
 		scanner.disable();
@@ -158,11 +118,10 @@ function disableScanner() {
 			$("#cameraFab").remove();
 		}
 	}
-	Rho.Log.info("End: disableScanner", "inMotion");
+	Rho.Log.info("Running: disableScanner", "inMotion");
 }
 
 function returnImagerScanner() {
-	Rho.Log.info("Start: returnImagerScanner()", "inMotion");
 	var scanner;
 	var isSet = false;
 	if (!Rho.System.isRhoSimulator){
@@ -192,7 +151,6 @@ function returnImagerScanner() {
 			scanner = x;
 		}
 	}
-	Rho.Log.info("End: returnImagerScanner", "inMotion");
 	return scanner;
 }
 
@@ -300,7 +258,6 @@ function redoTableRowShading(tableName){
 }
 
 function refreshFrameListScroll() {
-	Rho.Log.info("Start: refreshFrameListScroll()", "inMotion");
 	if (frameListScroll !== undefined) {
 		
 		frameListScroll.updateDimensions();
@@ -313,11 +270,9 @@ function refreshFrameListScroll() {
 		    scrollingX: false
 		});
 	}
-	Rho.Log.info("End: refreshFrameListScroll", "inMotion");
 }
 
 function refreshFrameSideScroll() {
-	Rho.Log.info("Start: refreshFrameSideScroll()", "inMotion");
 	if (frameSideScroll !== undefined) {
 		
 		frameSideScroll.updateDimensions();
@@ -331,7 +286,6 @@ function refreshFrameSideScroll() {
 		    updateOnWindowResize: true
 		});
 	}
-	Rho.Log.info("End: refreshFrameSideScroll", "inMotion");
 }
 
 function replaceMaxLength(){
@@ -375,7 +329,6 @@ function replaceMaxLength(){
 }
 
 function returnScannerData(e) {
-	Rho.Log.info("Start: returnScannerData(" + JSON.stringify(e) + ")", "inMotion");
 	var data;
 	if (e) {
 		if (e.barcode) {
@@ -896,7 +849,6 @@ function scannerCallbackMode4(e){
 }
 
 function applicationSendLog(callBack) {
-	Rho.Log.info("Start: applicationSendLog()", "inMotion");
 	if (!Rho.System.isRhoSimulator){
 		var host = Rho.RhoConnectClient.syncServer.split("//")[1].split(".")[0].toLowerCase();
 		var shortHost = host.substring(0, 7);
@@ -919,11 +871,10 @@ function applicationSendLog(callBack) {
 		}
 		Rho.Log.info("Running: applicationSendLog from Simulator", "inMotion");
 	}
-	Rho.Log.info("End: applicationSendLog", "inMotion");
+	Rho.Log.info("Running: applicationSendLog", "inMotion");
 }
 
 function sendLogCallback(params) {
-	Rho.Log.info("Start: sendLogCallback(" + JSON.stringify(params) + ")", "inMotion");
 	var status = params.status;
 	if (status == "ok"){
 		Rho.Log.cleanLogFile();
@@ -932,13 +883,12 @@ function sendLogCallback(params) {
 	else {
 		alert("An error occurred and the log was not sent");
 	}
-	Rho.Log.info("End: sendLogCallback", "inMotion");
+	Rho.Log.info("Ending: sendLogCallback(" + JSON.stringify(params) + ")", "inMotion");
 }
 
 function sendRefreshCommand() {
-	Rho.Log.info("Start: sendRefreshCommand()", "inMotion");
 	detectUHSRhoServer(sendRefreshCommandConnected);
-	Rho.Log.info("End: sendRefreshCommand", "inMotion");
+	Rho.Log.info("Ending: sendRefreshCommand", "inMotion");
 }
 
 function sendRefreshCommandConnected() {
@@ -1278,7 +1228,6 @@ function toggleRadioButton(element, classObj){
 }
 
 function detectUHSRhoServer(successFunction, failureFunction) {
-	Rho.Log.info("Start: detectUHSRhoServer()", "inMotion");
 	failureFunction = failureFunction ? failureFunction : function() {
 		if (Rho.Network.hasWifiNetwork()) {
 			alert("Unable to connect to UHS, please:\n1. Connect to the UHS or UHS_Guest wireless network\n2. Turn off Wi-Fi\n OR\n3. Accept the Terms & Conditions of the current wireless network.");
@@ -1296,7 +1245,6 @@ function detectUHSRhoServer(successFunction, failureFunction) {
 			"pollInterval" : 5000
 		}, function(params){
 			Rho.Log.info("Start: detectUHSRhoServerCallback(" + JSON.stringify(params) + ")", "inMotion");
-//			Rho.Network.stopDetectingConnection();
 			Rho.Network.stopDetectingConnection(function () {});
 			if (params.connectionInformation == "Connected") {
 				Rho.Log.info("End: detectUHSRhoServerCallback(connected)", "inMotion");
@@ -1307,7 +1255,6 @@ function detectUHSRhoServer(successFunction, failureFunction) {
 				failureFunction();
 			}
 	});
-	Rho.Log.info("End: detectUHSRhoServer", "inMotion");
 }
 
 function reloadApplicationNoConnection() {
@@ -1331,7 +1278,6 @@ function reloadApplicationNoConnection() {
 }
 
 function getEmployeeId() {
-	Rho.Log.info("Start: getEmployeeId()", "inMotion");
 	var unDef;
 	var eeId = Rho.RhoConnectClient.userName;
 	
@@ -1350,13 +1296,11 @@ function getEmployeeId() {
 			eeId = unDef;
 		}
 	}
-	Rho.Log.info("End: getEmployeeId(" + eeId + ")", "inMotion");
+	Rho.Log.info("Ending: getEmployeeId(" + eeId + ")", "inMotion");
 	return eeId;
 }
 
 function getRhoSession() {
-	Rho.Log.info("Start: getRhoSession()", "inMotion");
-
 	var sql = "select session from client_info";
 	try {
 		var sessionCookie = userDatabase.executeSql(sql);
@@ -1371,7 +1315,7 @@ function getRhoSession() {
 		Rho.Log.info("Error: getRhoSession (" + e.message + ")", "inMotion");
 		return "";
 	}
-	Rho.Log.info("End: getRhoSession", "inMotion");
+	Rho.Log.info("Ending: getRhoSession", "inMotion");
 }
 
 function validateTaskHeaderContainer(){
@@ -1393,47 +1337,47 @@ function validateTaskHeaderContainer(){
 	if (taskHeaderContainer){
 		transferNumber = taskHeaderContainer.getAttribute("data-transferNumber");
 		if (!transferNumber){
-			Rho.Log.info("Error: transferNumber is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(transferNumber is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		localTransferNumber = taskHeaderContainer.getAttribute("data-localTransferNumber");
 		if (!localTransferNumber){
-			Rho.Log.info("Error: localTransferNumber is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(localTransferNumber is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		transferType = taskHeaderContainer.getAttribute("data-transferType");
 		if (!transferType){
-			Rho.Log.info("Error: transferType is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(transferType is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		hasUnitAccessoryTracking = taskHeaderContainer.getAttribute("data-hasUnitAccessoryTracking");
 		if (!hasUnitAccessoryTracking){
-			Rho.Log.info("Error: hasUnitAccessoryTracking is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(hasUnitAccessoryTracking is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		accountId = taskHeaderContainer.getAttribute("data-accountId");
 		if (!accountId){
-			Rho.Log.info("Error: accountId is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(accountId is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		scanLevel = taskHeaderContainer.getAttribute("data-scanLevel");
 		if (!scanLevel){
-			Rho.Log.info("Error: scanLevel is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(scanLevel is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		transferDate = taskHeaderContainer.getAttribute("data-transferDate");
 		if (!transferDate){
-			Rho.Log.info("Error: transferDate is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(transferDate is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		swapOutNumber = taskHeaderContainer.getAttribute("data-swapOutNumber");
 		if (!swapOutNumber){
-			Rho.Log.info("Error: swapOutNumber is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(swapOutNumber is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		localSwapOutNumber = taskHeaderContainer.getAttribute("data-localSwapOutNumber");
 		if (!localSwapOutNumber){
-			Rho.Log.info("Error: localSwapOutNumber is missing or not valid", "inMotion");
+			Rho.Log.info("Error: validateTaskHeaderContainer(localSwapOutNumber is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 	}
@@ -1446,7 +1390,7 @@ function validateTaskHeaderContainer(){
 }
 
 function validateTripContainer(){
-	
+	Rho.Log.info("Start: validateTripContainer()", "inMotion");
 	var containerContinue = true;
 	//check that data from tripContainer is not empty or missing
 	var tripContainer = document.getElementById("tripContainer");
@@ -1457,29 +1401,29 @@ function validateTripContainer(){
 	if (tripContainer){
 		currentEmployeeInitials = tripContainer.getAttribute("data-currentEmployeeInitials");
 		if (!currentEmployeeInitials){
-			Rho.Log.info("Error: currentEmployeeInitials is missing or not valid", "inMotion");
+			Rho.Log.info("Error:  validateTripContainer(currentEmployeeInitials is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		currentEmployeeId = tripContainer.getAttribute("data-currentEmployeeId");
 		if (!currentEmployeeId){
-			Rho.Log.info("Error: currentEmployeeId is missing or not valid", "inMotion");
+			Rho.Log.info("Error:  validateTripContainer(currentEmployeeId is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		tripId = tripContainer.getAttribute("data-tripId");
 		if (!tripId){
-			Rho.Log.info("Error: tripId is missing or not valid", "inMotion");
+			Rho.Log.info("Error:  validateTripContainer(tripId is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 		localTripId = tripContainer.getAttribute("data-localTripId");
 		if (!localTripId){
-			Rho.Log.info("Error: localTripId is missing or not valid", "inMotion");
+			Rho.Log.info("Error:  validateTripContainer(localTripId is missing or not valid)", "inMotion");
 			containerContinue = false;
 		}
 	}
 	else {
-		Rho.Log.info("Error: tripContainer is missing", "inMotion");
+		Rho.Log.info("Error:  validateTripContainer(tripContainer is missing)", "inMotion");
 		containerContinue = false;
 	}
-	
+	Rho.Log.info("End: validateTripContainer", "inMotion");
 	return containerContinue;
 }
