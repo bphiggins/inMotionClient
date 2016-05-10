@@ -1593,7 +1593,7 @@ function executeOnLoadSyncErrors() {
 }
 
 function processSyncErrors(params){
-	Rho.Log.info("Start: processSyncErrors(" + JSON.stringify(params) + ")", "inMotion");
+	Rho.Log.info("Start: processSyncErrors(see incrementalSyncNotify)", "inMotion");
 	//TODO
 	var status = params.status;
 	var errorCode = params.error_code;
