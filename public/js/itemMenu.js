@@ -3302,14 +3302,26 @@ function saveDamagedItemPicture(params){
 				//populate image 1
 				$("#damagedItemPicture1").attr("src", "data:image/jpeg;base64," + img);
 				$("#damagedItemPicture1").css({"height":"100", "width":"133"});
+				$("#takeDamagedItemPictureButton").prop("disabled", true);
+				setTimeout(function() {
+					$("#takeDamagedItemPictureButton").prop("disabled", false);
+				}, 5000);
 			}
 			else if (count == 1){
 				$("#damagedItemPicture2").attr("src", "data:image/jpeg;base64," + img);
 				$("#damagedItemPicture2").css({"height":"100", "width":"133"});
+				$("#takeDamagedItemPictureButton").prop("disabled", true);
+				setTimeout(function() {
+					$("#takeDamagedItemPictureButton").prop("disabled", false);
+				}, 5000);
 			}
 			else if (count == 2){
 				$("#damagedItemPicture3").attr("src", "data:image/jpeg;base64," + img);
 				$("#damagedItemPicture3").css({"height":"100", "width":"133"});
+				$("#takeDamagedItemPictureButton").prop("disabled", true);
+				setTimeout(function() {
+					$("#takeDamagedItemPictureButton").prop("disabled", false);
+				}, 5000);
 			}
 			else {
 				$("#damagedItemPicture4").attr("src", "data:image/jpeg;base64," + img);
