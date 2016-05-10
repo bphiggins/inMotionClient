@@ -858,7 +858,7 @@ function applicationSendLog(callBack) {
 		else {
 			Rho.Log.destinationURI = "http://natasha.int.uhs.com:17001/InMotionLogRestApi/jaxrs/log";
 		}
-		if (callBack) {
+		if (typeof callBack === "function") {
 			Rho.Log.sendLogFile(callBack);	
 		}
 		else {
@@ -866,7 +866,7 @@ function applicationSendLog(callBack) {
 		}
 	}
 	else {
-		if (callBack) {
+		if (typeof callBack === "function") {
 			callBack({"status":"ok"});
 		}
 		Rho.Log.info("Running: applicationSendLog from Simulator", "inMotion");
