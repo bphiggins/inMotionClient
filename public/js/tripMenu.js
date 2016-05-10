@@ -529,8 +529,6 @@ function collapseAllAccounts(accountId){
 }
 
 function createTripDetailObject(tripDetail){
-	Rho.Log.info("Start: createTripDetailObject()", "inMotion");
-
 	var tripDetailObj = {};
 	tripDetailObj.accountId = tripDetail.accountId;
 	if (tripDetail.taskType == "D"){
@@ -592,7 +590,6 @@ function createTripDetailObject(tripDetail){
 	else {
 		tripDetailObj.tripDetailImage = "images/uhs/blank.png";
 	}
-	Rho.Log.info("End: createTripDetailObject", "inMotion");
 	return tripDetailObj;
 }
 
