@@ -3240,7 +3240,8 @@ function takeDamagedItemPicture(){
 			}
 			catch (e) {
 				Rho.Log.info("Error: takeDamagedItemPicture()", "inMotion");
-		        alert("Unable to capture photo, please restart the application or contact inMotion Support.");
+				$("#takeDamagedItemPictureButton").prop("disabled", false);
+			        alert("Unable to capture photo, please restart the application or contact inMotion Support.");
 		    }
 		}
 	}
