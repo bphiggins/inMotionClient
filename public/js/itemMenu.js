@@ -3226,6 +3226,7 @@ function takeDamagedItemPicture(){
 		}
 		if (continueOn) {
 			Rho.Barcode.disable();
+			$("#takeDamagedItemPictureButton").prop("disabled", true);
 			try {
 				Rho.Camera.takePicture(
 					{
@@ -3305,7 +3306,7 @@ function saveDamagedItemPicture(params){
 				$("#takeDamagedItemPictureButton").prop("disabled", true);
 				setTimeout(function() {
 					$("#takeDamagedItemPictureButton").prop("disabled", false);
-				}, 8000);
+				}, 10000);
 			}
 			else if (count == 1){
 				$("#damagedItemPicture2").attr("src", "data:image/jpeg;base64," + img);
@@ -3313,7 +3314,7 @@ function saveDamagedItemPicture(params){
 				$("#takeDamagedItemPictureButton").prop("disabled", true);
 				setTimeout(function() {
 					$("#takeDamagedItemPictureButton").prop("disabled", false);
-				}, 8000);
+				}, 10000);
 			}
 			else if (count == 2){
 				$("#damagedItemPicture3").attr("src", "data:image/jpeg;base64," + img);
@@ -3321,7 +3322,7 @@ function saveDamagedItemPicture(params){
 				$("#takeDamagedItemPictureButton").prop("disabled", true);
 				setTimeout(function() {
 					$("#takeDamagedItemPictureButton").prop("disabled", false);
-				}, 8000);
+				}, 10000);
 			}
 			else {
 				$("#damagedItemPicture4").attr("src", "data:image/jpeg;base64," + img);
