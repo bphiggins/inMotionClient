@@ -54,8 +54,8 @@ LastVisitedPage = ''
 #syncserver = 'https://rho4dev.int.uhs.com'
 #syncserver = 'http://rho4qua1.int.uhs.com'
 #syncserver = 'https://rho4int.int.uhs.com'
-syncserver = 'https://rho4qua.int.uhs.com'
-#syncserver = 'https://rho4prod.int.uhs.com'
+#syncserver = 'https://rho4qua.int.uhs.com'
+syncserver = 'https://rho4prod.int.uhs.com'
 sync_poll_interval=300
 
 # geo location inactivity timeout (in seconds)
@@ -78,7 +78,7 @@ sync_poll_interval=300
 #wm_show_statusbar = 1
 
 # disable screen rotation (enabled by default) - disable possible for ANDROID and iPhone ONLY
-#disable_screen_rotation = 1
+disable_screen_rotation = 1
 
 # disable close app when pressing back on home screen on blackberry
 #bb_disable_closebyback = 0
