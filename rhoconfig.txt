@@ -51,10 +51,10 @@ LastVisitedPage = ''
 #syncserver = 'http://localhost'
 #syncserver = 'http://localhost:9292'
 #syncserver = 'http://rho4dev1.int.uhs.com'
-#syncserver = 'https://rho4dev.int.uhs.com'
+syncserver = 'https://rho4dev.int.uhs.com'
 #syncserver = 'http://rho4qua1.int.uhs.com'
 #syncserver = 'https://rho4int.int.uhs.com'
-syncserver = 'https://rho4qua.int.uhs.com'
+#syncserver = 'https://rho4qua.int.uhs.com'
 #syncserver = 'https://rho4prod.int.uhs.com'
 sync_poll_interval=300
 
